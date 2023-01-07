@@ -1,0 +1,6 @@
+data/it.mijorus.webappmanager.desktop.in
+data/it.mijorus.webappmanager.appdata.xml.in
+data/it.mijorus.webappmanager.gschema.xml
+src/main.py
+src/window.py
+src/window.ui

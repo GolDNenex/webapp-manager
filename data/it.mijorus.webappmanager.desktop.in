@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=webapp-manager-mine
+Exec=webapp-manager-mine
+Icon=it.mijorus.webappmanager
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
