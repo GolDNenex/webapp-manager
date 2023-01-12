@@ -219,32 +219,14 @@ class WebAppManagerWindow():
 
     def open_about(self, widget):
         dlg = Gtk.AboutDialog()
+        dlg.props.program_name = 'Webapp Manager'
+        dlg.props.version = self.application.version
+        dlg.props.website = "https://www.github.com/mijorus/webapp-manager"
+        dlg.props.authors = ['Linux Mint Team', 'Lorenzo Paderi']
+        dlg.props.copyright = 'Licensed under the GPL License'
+        dlg.props.logo_icon_name = 'it.mijorus.webappmanager'
         dlg.set_transient_for(self.window)
-        dlg.set_title(_("About"))
-        dlg.set_program_name(_("Web Apps"))
-        dlg.set_comments(_("Run websites as if they were apps"))
-        try:
-            h = open('/usr/share/common-licenses/GPL', encoding="utf-8")
-            s = h.readlines()
-            gpl = ""
-            for line in s:
-                gpl += line
-            h.close()
-            dlg.set_license(gpl)
-        except Exception as e:
-            print(e)
-
-        dlg.set_version("__DEB_VERSION__")
-        dlg.set_icon_name("webapp-manager")
-        dlg.set_logo_icon_name("webapp-manager")
-        dlg.set_website("https://www.github.com/linuxmint/webapp-manager")
-
-        def close(w, res):
-            if res == Gtk.ResponseType.CANCEL or res == Gtk.ResponseType.DELETE_EVENT:
-                w.destroy()
-
-        dlg.connect("response", close)
-        dlg.show()
+        dlg.present()
 
     def on_menu_quit(self, widget):
         self.application.quit()
