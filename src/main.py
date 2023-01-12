@@ -19,6 +19,7 @@
 
 import sys
 import gi
+import logging
 from .WebappManagerWindow import WebAppManagerWindow
 
 gi.require_version("Gtk", "3.0")  # noqa
@@ -51,5 +52,6 @@ class MyApplication(Gtk.Application):
 
 def main(version):
     """The application's entry point."""
+    logging.basicConfig(handlers=[logging.StreamHandler(sys.stdout)], force=True, level=logging.INFO)
     app = MyApplication()
     return app.run(sys.argv)

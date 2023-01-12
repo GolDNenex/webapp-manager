@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import warnings
 import webbrowser
+import logging
 
 #   2. Related third party imports.
 import gi
@@ -175,11 +176,13 @@ class WebAppManagerWindow():
         num_browsers = 0
         for browser in self.manager.get_supported_browsers():
             try:
-                subprocess.check_output(['flatpak-spawn', '--host', 'which', browser.exec_path])
+                if subprocess.run(['flatpak-spawn', '--host', 'test', '-f', browser.test_path]).returncode != 0:
+                    raise Exception('Path does not exists')
+
                 browser_model.append([browser, browser.name])
                 num_browsers += 1
             except Exception as e:
-                pass
+                logging.info(e)
 
         renderer = Gtk.CellRendererText()
         self.browser_combo.pack_start(renderer, True)
@@ -209,7 +212,7 @@ class WebAppManagerWindow():
         gladefile = "gtk/shortcuts.ui"
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
-        builder.add_from_resource(self.builder.add_from_resource('/it/mijorus/webappmanager/gtk/shortcuts.ui'))
+        builder.add_from_resource('/it/mijorus/webappmanager/gtk/shortcuts.ui')
         window = builder.get_object("shortcuts-webappmanager")
         window.set_title(_("Web Apps"))
         window.show()

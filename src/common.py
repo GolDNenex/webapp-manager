@@ -33,10 +33,13 @@ def _async(func):
     return wrapper
 
 # Used as a decorator to run things in the main loop, from another thread
+
+
 def idle(func):
     def wrapper(*args):
         GObject.idle_add(func, *args)
     return wrapper
+
 
 # i18n
 APP = 'webapp-manager'
@@ -58,6 +61,7 @@ FALKON_PROFILES_DIR = os.path.join(ICE_DIR, "falkon")
 ICONS_DIR = os.path.join(ICE_DIR, "icons")
 BROWSER_TYPE_FIREFOX, BROWSER_TYPE_FIREFOX_FLATPAK, BROWSER_TYPE_LIBREWOLF_FLATPAK, BROWSER_TYPE_CHROMIUM, BROWSER_TYPE_EPIPHANY, BROWSER_TYPE_FALKON = range(6)
 
+
 class Browser:
 
     def __init__(self, browser_type, name, exec_path, test_path):
@@ -68,6 +72,8 @@ class Browser:
 
 # This is a data structure representing
 # the app menu item (path, name, icon..etc.)
+
+
 class WebAppLauncher:
 
     def __init__(self, path, codename):
@@ -141,6 +147,8 @@ class WebAppLauncher:
 # This is the backend.
 # It contains utility functions to load,
 # save and delete webapps.
+
+
 class WebAppManager:
 
     def __init__(self):
@@ -208,14 +216,14 @@ class WebAppManager:
         # first remove symlinks then others
         if os.path.exists(webapp.path):
             os.remove(webapp.path)
-        epiphany_orig_prof_dir=os.path.join(os.path.expanduser("~/.local/share"), "org.gnome.Epiphany.WebApp-" + webapp.codename)
+        epiphany_orig_prof_dir = os.path.join(os.path.expanduser("~/.local/share"), "org.gnome.Epiphany.WebApp-" + webapp.codename)
         if os.path.exists(epiphany_orig_prof_dir):
             os.remove(epiphany_orig_prof_dir)
         shutil.rmtree(os.path.join(EPIPHANY_PROFILES_DIR, "org.gnome.Epiphany.WebApp-%s" % webapp.codename), ignore_errors=True)
 
     def create_webapp(self, name, url, icon, category, browser, custom_parameters, isolate_profile=True, navbar=False, privatewindow=False):
         # Generate a 4 digit random code (to prevent name collisions, so we can define multiple launchers with the same name)
-        random_code =  ''.join(choice(string.digits) for _ in range(4))
+        random_code = ''.join(choice(string.digits) for _ in range(4))
         codename = "".join(filter(str.isalpha, name)) + random_code
         path = os.path.join(APPS_DIR, "webapp-%s.desktop" % codename)
 
@@ -252,10 +260,10 @@ class WebAppManager:
                 os.replace(path, new_path)
                 os.symlink(new_path, path)
                 # copy the icon to profile directory
-                new_icon=os.path.join(epiphany_profile_path, "app-icon.png")
+                new_icon = os.path.join(epiphany_profile_path, "app-icon.png")
                 shutil.copy(icon, new_icon)
                 # required for app mode. create an empty file .app
-                app_mode_file=os.path.join(epiphany_profile_path, ".app")
+                app_mode_file = os.path.join(epiphany_profile_path, ".app")
                 with open(app_mode_file, 'w') as fp:
                     pass
 
@@ -264,17 +272,20 @@ class WebAppManager:
             # Firefox based
             firefox_profiles_dir = FIREFOX_PROFILES_DIR if browser.browser_type == BROWSER_TYPE_FIREFOX else FIREFOX_FLATPAK_PROFILES_DIR
             firefox_profile_path = os.path.join(firefox_profiles_dir, codename)
-            exec_string = ("sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"" + icon + "\" " + browser.exec_path +
-                           " --class WebApp-" + codename +
-                           " --profile " + firefox_profile_path +
-                           " --no-remote ")
+            exec_string = (
+                "sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"" + icon + "\" " + browser.exec_path +
+                " --class WebApp-" + codename +
+                " --profile " + firefox_profile_path +
+                " --no-remote "
+            )
+
             if privatewindow:
                 exec_string += "--private-window "
             if custom_parameters:
                 exec_string += " {}".format(custom_parameters)
             exec_string += "\"" + url + "\"" + "'"
             # Create a Firefox profile
-            shutil.copytree('/usr/share/webapp-manager/firefox/profile', firefox_profile_path, dirs_exist_ok = True)
+            shutil.copytree('/usr/share/webapp-manager/firefox/profile', firefox_profile_path, dirs_exist_ok=True)
             if navbar:
                 shutil.copy('/usr/share/webapp-manager/firefox/userChrome-with-navbar.css',
                             os.path.join(firefox_profile_path, "chrome", "userChrome.css"))
@@ -282,15 +293,18 @@ class WebAppManager:
             # LibreWolf flatpak
             firefox_profiles_dir = LIBREWOLF_FLATPAK_PROFILES_DIR
             firefox_profile_path = os.path.join(firefox_profiles_dir, codename)
-            exec_string = ("sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"" + icon + "\" " + browser.exec_path +
-                           " --class WebApp-" + codename +
-                           " --profile " + firefox_profile_path +
-                           " --no-remote ")
+            exec_string = (
+                "sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"" + icon + "\" " + browser.exec_path +
+                " --class WebApp-" + codename +
+                " --profile " + firefox_profile_path +
+                " --no-remote "
+            )
+
             if privatewindow:
                 exec_string += "--private-window "
             exec_string += "\"" + url + "\"" + "'"
             # Create a Firefox profile
-            shutil.copytree('/usr/share/webapp-manager/firefox/profile', firefox_profile_path, dirs_exist_ok = True)
+            shutil.copytree('/usr/share/webapp-manager/firefox/profile', firefox_profile_path, dirs_exist_ok=True)
             if navbar:
                 shutil.copy('/usr/share/webapp-manager/firefox/userChrome-with-navbar.css',
                             os.path.join(firefox_profile_path, "chrome", "userChrome.css"))
@@ -364,17 +378,20 @@ class WebAppManager:
         with open(path, 'w') as configfile:
             config.write(configfile, space_around_delimiters=False)
 
+
 def bool_to_string(boolean):
     if boolean:
         return "true"
     else:
         return "false"
 
+
 def normalize_url(url):
     (scheme, netloc, path, _, _, _) = urllib.parse.urlparse(url, "http")
     if not netloc and path:
         return urllib.parse.urlunparse((scheme, path, "", "", "", ""))
     return urllib.parse.urlunparse((scheme, netloc, path, "", "", ""))
+
 
 def download_image(root_url, link):
     image = None
@@ -394,12 +411,14 @@ def download_image(root_url, link):
         image = None
     return image
 
+
 def _find_link_favicon(soup, iconformat):
     items = soup.find_all("link", {"rel": iconformat})
     for item in items:
         link = item.get("href")
         if link:
             yield link
+
 
 def _find_meta_content(soup, iconformat):
     item = soup.find("meta", {"name": iconformat})
@@ -409,12 +428,14 @@ def _find_meta_content(soup, iconformat):
     if link:
         yield link
 
+
 def _find_property(soup, iconformat):
     items = soup.find_all("meta", {"property": iconformat})
     for item in items:
         link = item.get("content")
         if link:
             yield link
+
 
 def _find_url(_soup, iconformat):
     yield iconformat
@@ -438,7 +459,7 @@ def download_favicon(url):
                     t = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
                     images.append(["Favicon Grabber", image, t.name])
                     image.save(t.name)
-            images = sorted(images, key = lambda x: x[1].height, reverse=True)
+            images = sorted(images, key=lambda x: x[1].height, reverse=True)
             if images:
                 return images
     except Exception as e:
@@ -475,8 +496,9 @@ def download_favicon(url):
     except Exception as e:
         print(e)
 
-    images = sorted(images, key = lambda x: x[1].height, reverse=True)
+    images = sorted(images, key=lambda x: x[1].height, reverse=True)
     return images
+
 
 if __name__ == "__main__":
     download_favicon(sys.argv[1])

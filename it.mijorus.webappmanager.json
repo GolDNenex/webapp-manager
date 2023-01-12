@@ -10,7 +10,7 @@
         "--socket=fallback-x11",
         "--device=dri",
         "--socket=wayland",
-        "--filesystem=host",
+        "--filesystem=home",
         "--talk-name=org.freedesktop.Flatpak"
 
     ],
@@ -44,13 +44,13 @@
             ]
         },
         {
-            "name" : "webapp-manager-mine",
+            "name" : "webapp-manager",
             "builddir" : true,
             "buildsystem" : "meson",
             "sources" : [
                 {
-                    "type" : "path",
-                    "dir" : "./"
+                    "type" : "dir",
+                    "path" : "./"
                 }
             ]
         }
