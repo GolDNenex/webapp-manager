@@ -5,5 +5,6 @@
     <file preprocess="xml-stripblanks">gtk/help-overlay.ui</file>
     <file preprocess="xml-stripblanks">gtk/shortcuts.ui</file>
     <file preprocess="xml-stripblanks">gtk/webapp-manager.ui</file>
+    <file preprocess="xml-stripblanks">assets/webappmanager.svg</file>
   </gresource>
 </gresources>

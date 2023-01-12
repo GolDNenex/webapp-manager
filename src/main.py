@@ -25,15 +25,13 @@ from .WebappManagerWindow import WebAppManagerWindow
 gi.require_version("Gtk", "3.0")  # noqa
 
 from gi.repository import Gtk, Gio
-from .window import WebappManagerMineWindow
 
 
 class MyApplication(Gtk.Application):
     """The main application singleton class."""
 
     def __init__(self):
-        super().__init__(application_id='it.mijorus.webappmanager',
-                         flags=Gio.ApplicationFlags.FLAGS_NONE)
+        super().__init__(application_id='it.mijorus.webappmanager', flags=Gio.ApplicationFlags.FLAGS_NONE)
 
     def do_activate(self):
         """Called when the application is activated.

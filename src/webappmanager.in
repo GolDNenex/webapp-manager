@@ -1,6 +1,6 @@
 #!@PYTHON@
 
-# webapp-manager-mine.in
+# webapp-manager.in
 #
 # Copyright 2023 Altravia
 #
@@ -31,16 +31,16 @@ localedir = '@localedir@'
 
 sys.path.insert(1, pkgdatadir)
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-locale.bindtextdomain('webapp-manager-mine', localedir)
-locale.textdomain('webapp-manager-mine')
-gettext.install('webapp-manager-mine', localedir)
+locale.bindtextdomain('webapp-manager', localedir)
+locale.textdomain('webapp-manager')
+gettext.install('webapp-manager', localedir)
 
 if __name__ == '__main__':
     import gi
 
     from gi.repository import Gio
-    resource = Gio.Resource.load(os.path.join(pkgdatadir, 'webapp-manager-mine.gresource'))
+    resource = Gio.Resource.load(os.path.join(pkgdatadir, 'webapp-manager.gresource'))
     resource._register()
 
-    from webapp_manager_mine import main
+    from webapp_manager import main
     sys.exit(main.main(VERSION))

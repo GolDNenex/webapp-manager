@@ -34,7 +34,7 @@
         <attribute name="action">win.show-help-overlay</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">_About Webapp-manager-mine</attribute>
+        <attribute name="label" translatable="yes">_About webapp-manager</attribute>
         <attribute name="action">app.about</attribute>
       </item>
     </section>

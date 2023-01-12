@@ -17,7 +17,7 @@ import threading
 import traceback
 
 #   2. Related third party imports.
-from gi.repository import GObject
+from gi.repository import GObject, GLib
 from PIL import Image
 import requests
 # Note: BeautifulSoup is an optional import supporting another way of getting a website's favicons.
@@ -55,6 +55,7 @@ APPS_DIR = os.path.expanduser("~/.local/share/applications")
 PROFILES_DIR = os.path.join(ICE_DIR, "profiles")
 FIREFOX_PROFILES_DIR = os.path.join(ICE_DIR, "firefox")
 FIREFOX_FLATPAK_PROFILES_DIR = os.path.expanduser("~/.var/app/org.mozilla.firefox/data/ice/firefox")
+FIREFOX_CUSTOM_FILES_DIR = '/app/share/webapp-manager/webapp_manager'
 LIBREWOLF_FLATPAK_PROFILES_DIR = os.path.expanduser("~/.var/app/io.gitlab.librewolf-community/data/ice/librewolf")
 EPIPHANY_PROFILES_DIR = os.path.join(ICE_DIR, "epiphany")
 FALKON_PROFILES_DIR = os.path.join(ICE_DIR, "falkon")
@@ -285,10 +286,10 @@ class WebAppManager:
                 exec_string += " {}".format(custom_parameters)
             exec_string += "\"" + url + "\"" + "'"
             # Create a Firefox profile
-            shutil.copytree('/usr/share/webapp-manager/firefox/profile', firefox_profile_path, dirs_exist_ok=True)
+            shutil.copytree(FIREFOX_CUSTOM_FILES_DIR + '/firefox/profile', firefox_profile_path, dirs_exist_ok=True)
             if navbar:
-                shutil.copy('/usr/share/webapp-manager/firefox/userChrome-with-navbar.css',
-                            os.path.join(firefox_profile_path, "chrome", "userChrome.css"))
+                pass
+                shutil.copy(FIREFOX_CUSTOM_FILES_DIR + '/firefox/userChrome-with-navbar.css', os.path.join(firefox_profile_path, "chrome", "userChrome.css"))
         elif browser.browser_type == BROWSER_TYPE_LIBREWOLF_FLATPAK:
             # LibreWolf flatpak
             firefox_profiles_dir = LIBREWOLF_FLATPAK_PROFILES_DIR
@@ -304,16 +305,15 @@ class WebAppManager:
                 exec_string += "--private-window "
             exec_string += "\"" + url + "\"" + "'"
             # Create a Firefox profile
-            shutil.copytree('/usr/share/webapp-manager/firefox/profile', firefox_profile_path, dirs_exist_ok=True)
+            shutil.copytree(FIREFOX_CUSTOM_FILES_DIR + 'firefox/profile', firefox_profile_path, dirs_exist_ok=True)
             if navbar:
-                shutil.copy('/usr/share/webapp-manager/firefox/userChrome-with-navbar.css',
+                shutil.copy(FIREFOX_CUSTOM_FILES_DIR + 'firefox/userChrome-with-navbar.css',
                             os.path.join(firefox_profile_path, "chrome", "userChrome.css"))
         elif browser.browser_type == BROWSER_TYPE_EPIPHANY:
             # Epiphany based
             epiphany_profile_path = os.path.join(EPIPHANY_PROFILES_DIR, "org.gnome.Epiphany.WebApp-" + codename)
             # Create symlink of profile dir at ~/.local/share
-            epiphany_orig_prof_dir = os.path.join(os.path.expanduser("~/.local/share"),
-                                                  "org.gnome.Epiphany.WebApp-" + codename)
+            epiphany_orig_prof_dir = os.path.join(GLib.get_home_dir() + '/.local/share', "org.gnome.Epiphany.WebApp-" + codename)
             os.symlink(epiphany_profile_path, epiphany_orig_prof_dir)
             exec_string = browser.exec_path
             exec_string += " --application-mode "
@@ -325,10 +325,12 @@ class WebAppManager:
             # Chromium based
             if isolate_profile:
                 profile_path = os.path.join(PROFILES_DIR, codename)
-                exec_string = (browser.exec_path +
-                               " --app=" + "\"" + url + "\"" +
-                               " --class=WebApp-" + codename +
-                               " --user-data-dir=" + profile_path)
+                exec_string = (
+                    browser.exec_path +
+                    " --app=" + "\"" + url + "\"" +
+                    " --class=WebApp-" + codename +
+                    " --user-data-dir=" + profile_path
+                )
             else:
                 exec_string = (browser.exec_path +
                                " --app=" + "\"" + url + "\"" +

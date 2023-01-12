@@ -1,8 +1,8 @@
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
-moduledir = join_paths(pkgdatadir, 'webapp_manager_mine')
+moduledir = join_paths(pkgdatadir, 'webapp_manager')
 gnome = import('gnome')
 
-gnome.compile_resources('webapp-manager-mine',
+gnome.compile_resources('webapp-manager',
   'webappmanager.gresource.xml',
   gresource_bundle: true,
   install: true,
