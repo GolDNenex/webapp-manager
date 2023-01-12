@@ -26,11 +26,11 @@ gi.require_version("Gtk", "3.0")  # noqa
 
 from gi.repository import Gtk, Gio
 
-
 class MyApplication(Gtk.Application):
     """The main application singleton class."""
 
-    def __init__(self):
+    def __init__(self, version):
+        self.version = version
         super().__init__(application_id='it.mijorus.webappmanager', flags=Gio.ApplicationFlags.FLAGS_NONE)
 
     def do_activate(self):
@@ -51,5 +51,5 @@ class MyApplication(Gtk.Application):
 def main(version):
     """The application's entry point."""
     logging.basicConfig(handlers=[logging.StreamHandler(sys.stdout)], force=True, level=logging.INFO)
-    app = MyApplication()
+    app = MyApplication(version=version)
     return app.run(sys.argv)
