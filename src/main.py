@@ -50,6 +50,6 @@ class MyApplication(Gtk.Application):
 
 def main(version):
     """The application's entry point."""
-    logging.basicConfig(handlers=[logging.StreamHandler(sys.stdout)], force=True, level=logging.INFO)
+    logging.basicConfig(handlers=[logging.StreamHandler(sys.stdout)], force=True, level=logging.WARNING)
     app = MyApplication(version=version)
     return app.run(sys.argv)
