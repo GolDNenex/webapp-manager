@@ -1,1 +1,1 @@
-i18n.gettext('webapp-manager-mine', preset: 'glib')
+i18n.gettext('webapp-manager', preset: 'glib')
