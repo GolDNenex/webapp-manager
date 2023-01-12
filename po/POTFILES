@@ -3,4 +3,5 @@ data/it.mijorus.webappmanager.appdata.xml.in
 data/it.mijorus.webappmanager.gschema.xml
 src/gtk/webapp-manager.ui
 src/main.py
-src/WebappManagerWindow.pyasdadas
+src/WebappManagerWindow.py
+src/common.py
