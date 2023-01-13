@@ -32,9 +32,8 @@ def _async(func):
         return thread
     return wrapper
 
+
 # Used as a decorator to run things in the main loop, from another thread
-
-
 def idle(func):
     def wrapper(*args):
         GObject.idle_add(func, *args)
@@ -50,13 +49,13 @@ gettext.textdomain(APP)
 _ = gettext.gettext
 
 # Constants
-ICE_DIR = os.path.expanduser("~/.local/share/ice")
-APPS_DIR = os.path.expanduser("~/.local/share/applications")
+ICE_DIR = os.path.expanduser(GLib.get_home_dir() + "/.local/share/ice")
+APPS_DIR = os.path.expanduser(GLib.get_home_dir() + "/.local/share/applications")
 PROFILES_DIR = os.path.join(ICE_DIR, "profiles")
 FIREFOX_PROFILES_DIR = os.path.join(ICE_DIR, "firefox")
-FIREFOX_FLATPAK_PROFILES_DIR = os.path.expanduser("~/.var/app/org.mozilla.firefox/data/ice/firefox")
+FIREFOX_FLATPAK_PROFILES_DIR = os.path.expanduser(GLib.get_home_dir() + "/.var/app/org.mozilla.firefox/data/ice/firefox")
 FIREFOX_CUSTOM_FILES_DIR = '/app/share/webapp-manager/webapp_manager'
-LIBREWOLF_FLATPAK_PROFILES_DIR = os.path.expanduser("~/.var/app/io.gitlab.librewolf-community/data/ice/librewolf")
+LIBREWOLF_FLATPAK_PROFILES_DIR = os.path.expanduser(GLib.get_home_dir() + "/.var/app/io.gitlab.librewolf-community/data/ice/librewolf")
 EPIPHANY_PROFILES_DIR = os.path.join(ICE_DIR, "epiphany")
 FALKON_PROFILES_DIR = os.path.join(ICE_DIR, "falkon")
 ICONS_DIR = os.path.join(ICE_DIR, "icons")
@@ -71,10 +70,9 @@ class Browser:
         self.exec_path = exec_path
         self.test_path = test_path
 
+
 # This is a data structure representing
 # the app menu item (path, name, icon..etc.)
-
-
 class WebAppLauncher:
 
     def __init__(self, path, codename):
@@ -145,17 +143,17 @@ class WebAppLauncher:
         if is_webapp and self.name is not None and self.icon is not None:
             self.is_valid = True
 
+
 # This is the backend.
 # It contains utility functions to load,
 # save and delete webapps.
-
-
 class WebAppManager:
 
     def __init__(self):
-        for directory in [ICE_DIR, APPS_DIR, PROFILES_DIR, FIREFOX_PROFILES_DIR, FIREFOX_FLATPAK_PROFILES_DIR, ICONS_DIR, EPIPHANY_PROFILES_DIR, FALKON_PROFILES_DIR]:
-            if not os.path.exists(directory):
-                os.makedirs(directory)
+        pass
+        # for directory in [ICE_DIR, APPS_DIR, PROFILES_DIR, FIREFOX_PROFILES_DIR, FIREFOX_FLATPAK_PROFILES_DIR, ICONS_DIR, EPIPHANY_PROFILES_DIR, FALKON_PROFILES_DIR]:
+        #     if not os.path.exists(directory):
+        #         os.makedirs(directory)
 
     def get_webapps(self):
         webapps = []
@@ -217,7 +215,7 @@ class WebAppManager:
         # first remove symlinks then others
         if os.path.exists(webapp.path):
             os.remove(webapp.path)
-        epiphany_orig_prof_dir = os.path.join(os.path.expanduser("~/.local/share"), "org.gnome.Epiphany.WebApp-" + webapp.codename)
+        epiphany_orig_prof_dir = os.path.join(os.path.expanduser(GLib.get_home_dir() + "/.local/share"), "org.gnome.Epiphany.WebApp-" + webapp.codename)
         if os.path.exists(epiphany_orig_prof_dir):
             os.remove(epiphany_orig_prof_dir)
         shutil.rmtree(os.path.join(EPIPHANY_PROFILES_DIR, "org.gnome.Epiphany.WebApp-%s" % webapp.codename), ignore_errors=True)
