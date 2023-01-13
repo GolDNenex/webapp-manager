@@ -232,8 +232,7 @@ class WebAppManager:
             desktop_file.write("Name=%s\n" % name)
             desktop_file.write("Comment=%s\n" % _("Web App"))
 
-            exec_string = self.get_exec_string(browser, codename, custom_parameters, icon, isolate_profile, navbar,
-                                               privatewindow, url)
+            exec_string = self.get_exec_string(browser, codename, custom_parameters, icon, isolate_profile, navbar, privatewindow, url)
 
             desktop_file.write("Exec=%s\n" % exec_string)
             desktop_file.write("Terminal=false\n")
