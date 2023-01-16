@@ -57,7 +57,7 @@ class WebAppManagerWindow():
         self.stack = self.builder.get_object("stack")
         self.icon_chooser = XApp.IconChooserButton()
         self.builder.get_object("icon_button_box").pack_start(self.icon_chooser, 0, True, True)
-        self.icon_chooser.set_icon("webapp-manager")
+        self.icon_chooser.set_icon("application-x-executable-symbolic")
         self.icon_chooser.show()
 
         # Create variables to quickly access dynamic widgets
@@ -222,7 +222,7 @@ class WebAppManagerWindow():
         dlg.props.program_name = 'Webapp Manager'
         dlg.props.version = self.application.version
         dlg.props.website = "https://www.github.com/mijorus/webapp-manager"
-        dlg.props.authors = ['Linux Mint Team', 'Lorenzo Paderi']
+        dlg.props.authors = ['Linux Mint Team', 'Lorenzo Paderi (Flatpak Fork)']
         dlg.props.copyright = 'Licensed under the GPL License'
         dlg.props.logo_icon_name = 'it.mijorus.webappmanager'
         dlg.set_transient_for(self.window)
@@ -272,7 +272,7 @@ class WebAppManagerWindow():
         if webapp is not None:
             print("Running %s" % webapp.path)
             print("Executing %s" % webapp.exec)
-            subprocess.Popen(webapp.exec, shell=True)
+            subprocess.Popen('flatpak-spawn --host ' + webapp.exec, shell=True)
 
     def on_run_button(self, widget):
         self.run_webapp(self.selected_webapp)
@@ -297,8 +297,7 @@ class WebAppManagerWindow():
             self.manager.edit_webapp(self.selected_webapp.path, name, browser, url, icon, category, custom_parameters, self.selected_webapp.codename, isolate_profile, navbar, privatewindow)
             self.load_webapps()
         else:
-            self.manager.create_webapp(name, url, icon, category, browser, custom_parameters, isolate_profile, navbar,
-                                       privatewindow)
+            self.manager.create_webapp(name, url, icon, category, browser, custom_parameters, isolate_profile, navbar, privatewindow)
             self.load_webapps()
 
     def on_add_button(self, widget):

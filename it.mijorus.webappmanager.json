@@ -12,7 +12,6 @@
         "--socket=wayland",
         "--filesystem=home",
         "--talk-name=org.freedesktop.Flatpak"
-
     ],
     "cleanup" : [
         "/include",
