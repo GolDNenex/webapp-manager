@@ -4,6 +4,13 @@
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
 	<description>
-	  <p>No description</p>
+	  <p>Run websites as if they were apps.</p>
 	</description>
+    <releases>
+        <release type="stable" version="1.0.0" date="2023-01-16T00:00:00Z">
+            <description>
+                <p>- First release</p>
+            </description>
+        </release>
+    </releases>
 </component>
