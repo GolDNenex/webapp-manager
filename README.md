@@ -6,6 +6,20 @@
 
 Run websites as if they were apps.
 
+## Build
+
+- Download GNOME Builder
+- Open this folder with Builder
+- Click the hammer icon to compile
+- Click the play button to run
+
+## Install
+
+Requirements: `flatpak`, `flatpak-builder`
+
+- Run the `install.sh` file
+
+
 ## Credits and bug reports
 This application is a fork of [Mint's](https://github.com/linuxmint/webapp-manager) original Webapp Manager app; the application was modified in order to run and be distributed on the Flathub store.
 
