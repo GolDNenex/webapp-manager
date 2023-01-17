@@ -6,8 +6,12 @@ install_data(
   install_dir: join_paths(get_option('datadir'), 'icons', scalable_dir)
 )
 
-actions_dir = join_paths('hicolor', 'scalable', 'actions')
+action_dir = join_paths('hicolor', 'scalable', 'actions')
+action_icons = [
+    join_paths(action_dir, 'executable.svg'),
+]
+
 install_data(
-  join_paths(actions_dir, 'application-x-executable-symbolic.svg'),
-  install_dir: join_paths(get_option('datadir'), 'icons', actions_dir)
+  action_icons,
+  install_dir: join_paths(get_option('datadir'), 'icons', action_dir)
 )

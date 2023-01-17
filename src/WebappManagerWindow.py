@@ -57,7 +57,7 @@ class WebAppManagerWindow():
         self.stack = self.builder.get_object("stack")
         self.icon_chooser = XApp.IconChooserButton()
         self.builder.get_object("icon_button_box").pack_start(self.icon_chooser, 0, True, True)
-        self.icon_chooser.set_icon("application-x-executable-symbolic")
+        self.icon_chooser.set_icon("executable")
         self.icon_chooser.show()
 
         # Create variables to quickly access dynamic widgets
