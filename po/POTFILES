@@ -1,7 +1,0 @@
-data/it.mijorus.webappmanager.desktop.in
-data/it.mijorus.webappmanager.appdata.xml.in
-data/it.mijorus.webappmanager.gschema.xml
-src/gtk/webapp-manager.ui
-src/main.py
-src/WebappManagerWindow.py
-src/common.py
