@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-	<id>it.mijorus.webappmanager.desktop</id>
-	<metadata_license>CC0-1.0</metadata_license>
-	<project_license>GPL-3.0-or-later</project_license>
-	<description>
-	  <p>Run websites as if they were apps.</p>
-	</description>
+    <id>it.mijorus.webappmanager.desktop</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>GPL-3.0-or-later</project_license>
+    <content_rating type="oars-1.0" />
+    <name>Webapp Manager</name>
+    <summary>Run websites as if they were apps</summary>
+    <description>
+        <p>
+            This app allows you to create desktop shortcuts for any websites using the most popular browsers.
+        </p>
+    </description>
     <releases>
         <release type="stable" version="1.0.0" date="2023-01-16T00:00:00Z">
             <description>
