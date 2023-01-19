@@ -2,6 +2,7 @@
 <component type="desktop">
     <id>it.mijorus.webappmanager.desktop</id>
     <metadata_license>CC0-1.0</metadata_license>
+    <url type="homepage">https://github.com/mijorus/webapp-manager</url>
     <project_license>GPL-3.0-or-later</project_license>
     <content_rating type="oars-1.0" />
     <name>Webapp Manager</name>
