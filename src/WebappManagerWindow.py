@@ -66,7 +66,6 @@ class WebAppManagerWindow():
         self.add_button = self.builder.get_object("add_button")
         self.remove_button = self.builder.get_object("remove_button")
         self.edit_button = self.builder.get_object("edit_button")
-        self.run_button = self.builder.get_object("run_button")
         self.ok_button = self.builder.get_object("ok_button")
         self.name_entry = self.builder.get_object("name_entry")
         self.url_entry = self.builder.get_object("url_entry")
@@ -92,7 +91,6 @@ class WebAppManagerWindow():
         self.builder.get_object("cancel_favicon_button").connect("clicked", self.on_cancel_favicon_button)
         self.remove_button.connect("clicked", self.on_remove_button)
         self.edit_button.connect("clicked", self.on_edit_button)
-        self.run_button.connect("clicked", self.on_run_button)
         self.ok_button.connect("clicked", self.on_ok_button)
         self.favicon_button.connect("clicked", self.on_favicon_button)
         self.name_entry.connect("changed", self.on_name_entry)
@@ -152,7 +150,6 @@ class WebAppManagerWindow():
         self.model.set_sort_column_id(COL_NAME, Gtk.SortType.ASCENDING)
         self.treeview.set_model(self.model)
         self.treeview.get_selection().connect("changed", self.on_webapp_selected)
-        self.treeview.connect("row-activated", self.on_webapp_activated)
 
         # Combox box
         category_model = Gtk.ListStore(str, str)  # CATEGORY_ID, CATEGORY_NAME
@@ -175,14 +172,9 @@ class WebAppManagerWindow():
         browser_model = Gtk.ListStore(object, str)  # BROWSER_OBJ, BROWSER_NAME
         num_browsers = 0
         for browser in self.manager.get_supported_browsers():
-            try:
-                if subprocess.run(['flatpak-spawn', '--host', 'test', '-f', browser.test_path]).returncode != 0:
-                    raise Exception('Path does not exists')
-
+            if GLib.file_test('/run/host/' + browser.test_path, GLib.FileTest.EXISTS):
                 browser_model.append([browser, browser.name])
                 num_browsers += 1
-            except Exception as e:
-                logging.info(e)
 
         renderer = Gtk.CellRendererText()
         self.browser_combo.pack_start(renderer, True)
@@ -237,10 +229,6 @@ class WebAppManagerWindow():
             self.selected_webapp = model.get_value(iter, COL_WEBAPP)
             self.remove_button.set_sensitive(True)
             self.edit_button.set_sensitive(True)
-            self.run_button.set_sensitive(True)
-
-    def on_webapp_activated(self, treeview, path, column):
-        self.run_webapp(self.selected_webapp)
 
     def on_key_press_event(self, widget, event):
         ctrl = (event.state & Gdk.ModifierType.CONTROL_MASK)
@@ -267,15 +255,6 @@ class WebAppManagerWindow():
                 self.manager.delete_webbapp(self.selected_webapp)
                 self.load_webapps()
             dialog.destroy()
-
-    def run_webapp(self, webapp):
-        if webapp is not None:
-            print("Running %s" % webapp.path)
-            print("Executing %s" % webapp.exec)
-            subprocess.Popen('flatpak-spawn --host ' + webapp.exec, shell=True)
-
-    def on_run_button(self, widget):
-        self.run_webapp(self.selected_webapp)
 
     def on_ok_button(self, widget):
         category = self.category_combo.get_model()[self.category_combo.get_active()][CATEGORY_ID]
@@ -480,7 +459,6 @@ class WebAppManagerWindow():
         self.selected_webapp = None
         self.remove_button.set_sensitive(False)
         self.edit_button.set_sensitive(False)
-        self.run_button.set_sensitive(False)
 
         webapps = self.manager.get_webapps()
         for webapp in webapps:
@@ -488,7 +466,7 @@ class WebAppManagerWindow():
                 if "/" in webapp.icon and os.path.exists(webapp.icon):
                     pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(webapp.icon, -1, 32 * self.window.get_scale_factor())
                 else:
-                    pixbuf = GdkPixbuf.Pixbuf.new_from_resource_at_scale('/it/mijorus/webappmanager/assets/webappmanager.svg', 32, 32, True)
+                    pixbuf = GdkPixbuf.Pixbuf.new_from_resource_at_scale('/it/mijorus/webappmanager/assets/image-missing-symbolic.svg', 32, 32, True)
 
                 iter = self.model.insert_before(None, None)
                 self.model.set_value(iter, COL_ICON, pixbuf)

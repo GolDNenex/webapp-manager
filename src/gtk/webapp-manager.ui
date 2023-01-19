@@ -154,27 +154,6 @@
                             <property name="position">2</property>
                           </packing>
                         </child>
-                        <child>
-                          <object class="GtkButton" id="run_button">
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can_focus">False</property>
-                            <property name="receives_default">False</property>
-                            <property name="tooltip_text" translatable="yes">Launch</property>
-                            <child>
-                              <object class="GtkImage">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="icon_name">web-browser-symbolic</property>
-                              </object>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">3</property>
-                          </packing>
-                        </child>
                       </object>
                     </child>
                   </object>
