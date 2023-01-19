@@ -18,4 +18,14 @@
             </description>
         </release>
     </releases>
+    <screenshots>
+        <screenshot type="default">
+            <caption>Application showcase</caption>
+            <image type="source">https://raw.githubusercontent.com/mijorus/webapp-manager/master/docs/screenshot-wam1.png</image>
+        </screenshot>
+        <screenshot>
+            <caption>Webapp creation process</caption>
+            <image type="source">https://raw.githubusercontent.com/mijorus/webapp-manager/master/docs/screenshot-wam2.png</image>
+        </screenshot>
+    </screenshots>
 </component>
