@@ -150,10 +150,9 @@ class WebAppLauncher:
 class WebAppManager:
 
     def __init__(self):
-        pass
-        # for directory in [ICE_DIR, APPS_DIR, PROFILES_DIR, FIREFOX_PROFILES_DIR, FIREFOX_FLATPAK_PROFILES_DIR, ICONS_DIR, EPIPHANY_PROFILES_DIR, FALKON_PROFILES_DIR]:
-        #     if not os.path.exists(directory):
-        #         os.makedirs(directory)
+        for directory in [ICE_DIR, APPS_DIR, PROFILES_DIR, FIREFOX_PROFILES_DIR, FIREFOX_FLATPAK_PROFILES_DIR, ICONS_DIR, EPIPHANY_PROFILES_DIR, FALKON_PROFILES_DIR]:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
 
     def get_webapps(self):
         webapps = []
@@ -269,7 +268,6 @@ class WebAppManager:
         if browser.browser_type in [BROWSER_TYPE_FIREFOX, BROWSER_TYPE_FIREFOX_FLATPAK]:
             # Firefox based
             firefox_profiles_dir = FIREFOX_PROFILES_DIR if browser.browser_type == BROWSER_TYPE_FIREFOX else FIREFOX_FLATPAK_PROFILES_DIR
-            self._create_dir_if_not_exists(firefox_profiles_dir)
             firefox_profile_path = os.path.join(firefox_profiles_dir, codename)
             exec_string = (
                 "sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"" + icon + "\" " + browser.exec_path +
@@ -291,7 +289,6 @@ class WebAppManager:
         elif browser.browser_type == BROWSER_TYPE_LIBREWOLF_FLATPAK:
             # LibreWolf flatpak
             firefox_profiles_dir = LIBREWOLF_FLATPAK_PROFILES_DIR
-            self._create_dir_if_not_exists(firefox_profiles_dir)
             firefox_profile_path = os.path.join(firefox_profiles_dir, codename)
             exec_string = (
                 "sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"" + icon + "\" " + browser.exec_path +
@@ -333,7 +330,8 @@ class WebAppManager:
             else:
                 exec_string = (browser.exec_path +
                                " --app=" + "\"" + url + "\"" +
-                               " --class=WebApp-" + codename)
+                               " --class=WebApp-" + codename
+                               )
 
             if privatewindow:
                 if browser.name == "Microsoft Edge":
@@ -378,10 +376,7 @@ class WebAppManager:
 
         with open(path, 'w') as configfile:
             config.write(configfile, space_around_delimiters=False)
-    
-    def _create_dir_if_not_exists(self, directory):
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+
 
 def bool_to_string(boolean):
     if boolean:
