@@ -283,7 +283,7 @@ class WebAppManagerWindow():
         self.name_entry.set_text("")
         self.url_entry.set_text("")
         self.customparameters_entry.set_text("")
-        self.icon_chooser.set_icon("webapp-manager")
+        self.icon_chooser.set_icon("it.mijorus.webappmanager")
         self.category_combo.set_active(0)
         self.browser_combo.set_active(0)
         self.isolated_switch.set_active(True)
@@ -466,7 +466,10 @@ class WebAppManagerWindow():
                 if "/" in webapp.icon and os.path.exists(webapp.icon):
                     pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(webapp.icon, -1, 32 * self.window.get_scale_factor())
                 else:
-                    pixbuf = GdkPixbuf.Pixbuf.new_from_resource_at_scale('/it/mijorus/webappmanager/assets/image-missing-symbolic.svg', 32, 32, True)
+                    if self.icon_theme.has_icon(webapp.icon):
+                        pixbuf = self.icon_theme.load_icon(webapp.icon, 32 * self.window.get_scale_factor(), 0)
+                    else:
+                        pixbuf = self.icon_theme.load_icon("webapp-manager", 32 * self.window.get_scale_factor(), 0)
 
                 iter = self.model.insert_before(None, None)
                 self.model.set_value(iter, COL_ICON, pixbuf)
