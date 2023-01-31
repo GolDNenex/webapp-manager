@@ -3,8 +3,6 @@
   <gresource prefix="/it/mijorus/webappmanager">
     <file preprocess="xml-stripblanks">gtk/shortcuts.ui</file>
     <file preprocess="xml-stripblanks">gtk/webapp-manager.ui</file>
-    <file preprocess="xml-stripblanks">assets/webappmanager.svg</file>
-    <file preprocess="xml-stripblanks">assets/executable.svg</file>
     <file preprocess="xml-stripblanks">assets/image-missing-symbolic.svg</file>
   </gresource>
 </gresources>
