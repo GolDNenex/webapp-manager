@@ -1,7 +1,7 @@
 # Webapp Manager
 
 <p align="center">
-  <img width="150" src="https://raw.githubusercontent.com/mijorus/webapp-manager/master/docs/icon.svg">
+  <img width="150" src="https://raw.githubusercontent.com/mijorus/webapp-manager/master/data/icons/hicolor/scalable/apps/it.mijorus.webappmanager.svg">
 </p>
 
 Run websites as if they were apps.
