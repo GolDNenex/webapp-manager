@@ -1,7 +1,5 @@
-#!/usr/bin/python3
-
-#   1. Standard library imports.
 from .common import _async, idle, WebAppManager, Browser, download_favicon, ICONS_DIR, BROWSER_TYPE_FIREFOX
+from time import time_ns
 
 import sys
 import gettext
@@ -12,6 +10,7 @@ import subprocess
 import warnings
 import webbrowser
 import logging
+
 
 #   2. Related third party imports.
 import gi
