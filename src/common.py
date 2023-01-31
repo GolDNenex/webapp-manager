@@ -40,21 +40,13 @@ def idle(func):
     return wrapper
 
 
-# i18n
-APP = 'webapp-manager'
-LOCALE_DIR = "/usr/share/locale"
-locale.bindtextdomain(APP, LOCALE_DIR)
-gettext.bindtextdomain(APP, LOCALE_DIR)
-gettext.textdomain(APP)
-_ = gettext.gettext
-
 # Constants
 ICE_DIR = os.path.expanduser(GLib.get_home_dir() + "/.local/share/ice")
 APPS_DIR = os.path.expanduser(GLib.get_home_dir() + "/.local/share/applications")
 PROFILES_DIR = os.path.join(ICE_DIR, "profiles")
 FIREFOX_PROFILES_DIR = os.path.join(ICE_DIR, "firefox")
 FIREFOX_FLATPAK_PROFILES_DIR = os.path.expanduser(GLib.get_home_dir() + "/.var/app/org.mozilla.firefox/data/ice/firefox")
-FIREFOX_CUSTOM_FILES_DIR = '/app/share/webapp-manager/webapp_manager'
+FIREFOX_CUSTOM_FILES_DIR = os.path.dirname(os.path.abspath(__file__))
 LIBREWOLF_FLATPAK_PROFILES_DIR = os.path.expanduser(GLib.get_home_dir() + "/.var/app/io.gitlab.librewolf-community/data/ice/librewolf")
 EPIPHANY_PROFILES_DIR = os.path.join(ICE_DIR, "epiphany")
 FALKON_PROFILES_DIR = os.path.join(ICE_DIR, "falkon")
@@ -63,7 +55,6 @@ BROWSER_TYPE_FIREFOX, BROWSER_TYPE_FIREFOX_FLATPAK, BROWSER_TYPE_LIBREWOLF_FLATP
 
 
 class Browser:
-
     def __init__(self, browser_type, name, exec_path, test_path):
         self.browser_type = browser_type
         self.name = name
