@@ -59,7 +59,7 @@ LIBREWOLF_FLATPAK_PROFILES_DIR = os.path.expanduser(GLib.get_home_dir() + "/.var
 EPIPHANY_PROFILES_DIR = os.path.join(ICE_DIR, "epiphany")
 FALKON_PROFILES_DIR = os.path.join(ICE_DIR, "falkon")
 ICONS_DIR = os.path.join(ICE_DIR, "icons")
-BROWSER_TYPE_FIREFOX, BROWSER_TYPE_FIREFOX_FLATPAK, BROWSER_TYPE_LIBREWOLF_FLATPAK, BROWSER_TYPE_CHROMIUM, BROWSER_TYPE_EPIPHANY, BROWSER_TYPE_FALKON = range(6)
+BROWSER_TYPE_FIREFOX, BROWSER_TYPE_FIREFOX_FLATPAK, BROWSER_TYPE_LIBREWOLF_FLATPAK, BROWSER_TYPE_CHROMIUM, BROWSER_TYPE_FALKON = range(5)
 
 
 class Browser:
@@ -187,7 +187,6 @@ class WebAppManager:
         browsers.append(Browser(BROWSER_TYPE_CHROMIUM, "Chromium", "chromium", "/usr/bin/chromium"))
         browsers.append(Browser(BROWSER_TYPE_CHROMIUM, "Chromium (chromium-browser)", "chromium-browser", "/usr/bin/chromium-browser"))
         browsers.append(Browser(BROWSER_TYPE_CHROMIUM, "Chromium (Snap)", "chromium", "/snap/bin/chromium"))
-        browsers.append(Browser(BROWSER_TYPE_EPIPHANY, "Epiphany", "epiphany", "/usr/bin/epiphany"))
         browsers.append(Browser(BROWSER_TYPE_FIREFOX,  "LibreWolf", "librewolf", "/usr/bin/librewolf"))
         browsers.append(Browser(BROWSER_TYPE_LIBREWOLF_FLATPAK,  "LibreWolf (Flatpak)", "/var/lib/flatpak/exports/bin/io.gitlab.librewolf-community", "/var/lib/flatpak/exports/bin/io.gitlab.librewolf-community"))
         browsers.append(Browser(BROWSER_TYPE_FIREFOX,  "Waterfox", "waterfox", "/usr/bin/waterfox"))
@@ -249,21 +248,6 @@ class WebAppManager:
             desktop_file.write("X-WebApp-PrivateWindow=%s\n" % bool_to_string(privatewindow))
             desktop_file.write("X-WebApp-Isolated=%s\n" % bool_to_string(isolate_profile))
 
-            if browser.browser_type == BROWSER_TYPE_EPIPHANY:
-                # Move the desktop file and create a symlink
-                epiphany_profile_path = os.path.join(EPIPHANY_PROFILES_DIR, "org.gnome.Epiphany.WebApp-" + codename)
-                new_path = os.path.join(epiphany_profile_path, "org.gnome.Epiphany.WebApp-%s.desktop" % codename)
-                os.makedirs(epiphany_profile_path)
-                os.replace(path, new_path)
-                os.symlink(new_path, path)
-                # copy the icon to profile directory
-                new_icon = os.path.join(epiphany_profile_path, "app-icon.png")
-                shutil.copy(icon, new_icon)
-                # required for app mode. create an empty file .app
-                app_mode_file = os.path.join(epiphany_profile_path, ".app")
-                with open(app_mode_file, 'w') as fp:
-                    pass
-
     def get_exec_string(self, browser, codename, custom_parameters, icon, isolate_profile, navbar, privatewindow, url):
         if browser.browser_type in [BROWSER_TYPE_FIREFOX, BROWSER_TYPE_FIREFOX_FLATPAK]:
             # Firefox based
@@ -303,20 +287,7 @@ class WebAppManager:
             # Create a Firefox profile
             shutil.copytree(FIREFOX_CUSTOM_FILES_DIR + 'firefox/profile', firefox_profile_path, dirs_exist_ok=True)
             if navbar:
-                shutil.copy(FIREFOX_CUSTOM_FILES_DIR + 'firefox/userChrome-with-navbar.css',
-                            os.path.join(firefox_profile_path, "chrome", "userChrome.css"))
-        elif browser.browser_type == BROWSER_TYPE_EPIPHANY:
-            # Epiphany based
-            epiphany_profile_path = os.path.join(EPIPHANY_PROFILES_DIR, "org.gnome.Epiphany.WebApp-" + codename)
-            # Create symlink of profile dir at ~/.local/share
-            epiphany_orig_prof_dir = os.path.join(GLib.get_home_dir() + '/.local/share', "org.gnome.Epiphany.WebApp-" + codename)
-            os.symlink(epiphany_profile_path, epiphany_orig_prof_dir)
-            exec_string = browser.exec_path
-            exec_string += " --application-mode "
-            exec_string += " --profile=\"" + epiphany_orig_prof_dir + "\""
-            exec_string += " " + "\"" + url + "\""
-            if custom_parameters:
-                exec_string += " {}".format(custom_parameters)
+                shutil.copy(FIREFOX_CUSTOM_FILES_DIR + 'firefox/userChrome-with-navbar.css', os.path.join(firefox_profile_path, "chrome", "userChrome.css"))
         else:
             # Chromium based
             if isolate_profile:
