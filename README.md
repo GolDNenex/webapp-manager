@@ -9,6 +9,13 @@ Run websites as if they were apps.
 
 ## Install
 
+### Easy way
+
+- Download the release `.flatpak` from the releases tab
+- Run `flatpak install ./it.mijorus.webappmanager.flatpak`
+
+### Using flatpak-builder
+
 Requirements: `flatpak`, `flatpak-builder`
 
 - Install the required runtime (if needed) `flatpak install org.gnome.Sdk/x86_64/43`
