@@ -268,6 +268,7 @@ class WebAppManager:
             exec_string = (
                 "sh -c 'XAPP_FORCE_GTKWINDOW_ICON=\"" + icon + "\" " + browser.exec_path +
                 " --class WebApp-" + codename +
+                " --name WebApp-" + codename +
                 " --profile " + firefox_profile_path +
                 " --no-remote "
             )
