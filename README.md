@@ -26,7 +26,7 @@ This app works, but I'm not interested in publishing it to Flathub just yet.
 
 There is no way at the moment to detect when the user uninstalls a specific browser, which leads to a poor user experience.
 
-Also, I have found some incompatibilities with Epiphany and for this reson it has been removed
+Also, I have found some incompatibilities with Epiphany and for this reason it has been removed
 
 If you want to try it yourself because the original app from Linux Mint does not work for you (maybe on fedora or something), please follow the steps described above
 
