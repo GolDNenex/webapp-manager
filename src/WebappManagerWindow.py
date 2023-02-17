@@ -213,7 +213,7 @@ class WebAppManagerWindow():
         dlg.props.program_name = 'Webapp Manager'
         dlg.props.version = self.application.version
         dlg.props.website = "https://www.github.com/mijorus/webapp-manager"
-        dlg.props.authors = ['Linux Mint Team', 'Lorenzo Paderi (Flatpak Fork)']
+        dlg.props.authors = ['Linux Mint Team', 'Lorenzo Paderi (Flatpak Fork)', 'imhemish']
         dlg.props.copyright = 'Licensed under the GPL License'
         dlg.props.logo_icon_name = 'it.mijorus.webappmanager'
         dlg.set_transient_for(self.window)
